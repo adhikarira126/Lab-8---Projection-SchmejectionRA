@@ -100,10 +100,7 @@ function recalculateProjMat(l, r, b, t, n, f) {
  * (the values in the HTML), then redraws the canvas and the table.
  */
 function reset() {
-    points.points3D = [
-        2, 1, -3,
-        1, 2, -5
-    ];
+    points.reset();
     for (const input of bounds) {
         input.value = input.defaultValue; // defaultValue = the HTML value attribute
     }

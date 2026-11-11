@@ -6,14 +6,22 @@
 
 class Points {
 
-    points3D = [
+    // the two points the page starts with (and returns to on Reset)
+    static INITIAL_POINTS = [
         2, 1, -3,
         1, 2, -5
     ];
 
-    points3DInsideViewVolume = [true, true];
+    points3D = [...Points.INITIAL_POINTS];
 
-    pointsNDC = [0.17, 0.11, 0.48, 0.05, 0.13, 0.78];
+    // both of these are calculated from points3D by recalculatePointsNDC()
+    points3DInsideViewVolume = [];
+    pointsNDC = [];
+
+    /** Throws away any added points and goes back to the starting points. */
+    reset() {
+        this.points3D = [...Points.INITIAL_POINTS];
+    }
 
     render(projMat) {
 
