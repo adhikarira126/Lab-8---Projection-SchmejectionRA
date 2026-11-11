@@ -23,21 +23,31 @@ class Points {
         this.points3D = [...Points.INITIAL_POINTS];
     }
 
+    /**
+     * The WebGL objects are made once, here, instead of on every render().
+     * @param {WebGL2RenderingContext} gl
+     * @param {WebGLProgram} program
+     */
+    constructor(gl, program) {
+        this.gl = gl;
+        this.aPositionLocation = gl.getAttribLocation(program, 'aPosition');
+        this.vertexBuffer = gl.createBuffer();
+
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.vertexBuffer);
+        gl.vertexAttribPointer(this.aPositionLocation, 3, gl.FLOAT, false, 0, 0); // 3 floats per point, tightly packed
+        gl.enableVertexAttribArray(this.aPositionLocation);
+    }
+
     render(projMat) {
+        const gl = this.gl;
 
         this.recalculatePointsNDC(projMat); // in case points have been added to points3D
 
-        const aPositionLocation = gl.getAttribLocation(program, 'aPosition');
-        const vertexBuffer = gl.createBuffer();       // one buffer for the vertices
-        gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer); // 
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.pointsNDC), gl.STATIC_DRAW); // fill the buffer
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.vertexBuffer);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.pointsNDC), gl.STATIC_DRAW);
 
-        gl.vertexAttribPointer(aPositionLocation, 3, gl.FLOAT, false, 3 * 4, 0); // how to read vertex data 
-        gl.enableVertexAttribArray(aPositionLocation); // enable the bound array as the source for aPositionLocation
-
-
-        gl.drawArrays(gl.POINTS, 0, this.pointsNDC.length / 3);
-
+        gl.clear(gl.COLOR_BUFFER_BIT);
+        gl.drawArrays(gl.POINTS, 0, this.numPoints());
     }
 
     // called by render() 

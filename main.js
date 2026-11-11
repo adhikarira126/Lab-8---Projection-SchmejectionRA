@@ -23,7 +23,7 @@ let gl;
 /** @type {WebGLProgram} */
 let program;
 
-let points = new Points();
+let points ;
 let projMat;
 
 
@@ -50,6 +50,7 @@ function initScene() {
     /** @type {WebGL2RenderingContext} */
     gl = canvas.getContext('webgl2'); // get its context
     program = createProgram(gl, vertexShaderSource, fragmentShaderSource);
+    points = new Points(gl, program);
 
     // each time a new value is entered, recalculate projMat and re-render points
     for (const input of bounds) {
