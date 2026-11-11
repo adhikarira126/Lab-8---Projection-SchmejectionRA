@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        table {
+            width: 100%;
+            margin: 1rem 0;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th,
+        td {
+            padding: 0.6rem 0.75rem;
+            border-bottom: 1px solid #d5dce5;
+        }
+
+        th {
+            background: #eef3f8;
+        }
+
+        tbody tr:nth-child(even) {
+            background: #f8fafc;
+        }
+
+        input,
+        button {
+            padding: 0.4rem 0.55rem;
+            border: 1px solid #b8c2ce;
+            border-radius: 4px;
+        }
+
+        button {
+            background: #eef3f8;
+            cursor: pointer;
+        }
+    </style>
+    <script src="shaders.js"></script>
+    <script src="gl-matrix.js"></script>
+    <script src="utilities.js"></script>
+    <script src="points.js" defer></script>
+    <script src="main.js" defer></script>
+</head>
+
+<body>
+    <div id="main">
+        <h1>Lab 8: Projection, Schmojection</h1>
+        <div>
+            <canvas id="sandbox" width="500" height="500"></canvas>
+            <fieldset>
+                <legend>Viewing volume</legend>
+                <div>
+                    <label for="leftINP">Left:</label>
+                    <input id="leftINP" type="number" value="-4">
+                    <label for="rightINP">Right:</label>
+                    <input id="rightINP" type="number" value="4">
+                </div>
+                <div>
+                    <label for="bottomINP">Bottom:</label>
+                    <input id="bottomINP" type="number" value="-3">
+                    <label for="topINP">Top:</label>
+                    <input id="topINP" type="number" value="3">
+                </div>
+                <div>
+                    <label for="nearINP">Near:</label>
+                    <input id="nearINP" type="number" value="1">
+                    <label for="farINP">Far:</label>
+                    <input id="farINP" type="number" value="10">
+                </div>
+            </fieldset>
+            <table id="pointsTBL">
+                <tr>
+                    <th>3D Point</th>
+                    <th>NDC (x, y, z)</th>
+                    <th>Result</th>
+                </tr>
+                <tr>
+                    <td>1. (2, 1, -3)</td>
+                    <td>(0.17, 0.11, 0.48)</td>
+                    <td>Visible</td>
+                </tr>
+                <tr>
+                    <td>2. (1, 2, -5)</td>
+                    <td>(0.05, 0.13, 0.78)</td>
+                    <td>Visible</td>
+                </tr>
+            </table>
+            <div class="point-entry">
+                <strong>Add a Point</strong><br>
+                <label for="xINP">x:</label>
+                <input id="xINP" type="number" value="3">
+                <label for="yINP">y:</label> 
+                <input id="yINP" type="number" value="-2">
+                <label for="zINP">z:</label> 
+                <input id="zINP" type="number" value="-8">
+                <button id="addPointBTN">+ Add</button>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,1 @@
+declare const glMatrix: typeof import("gl-matrix");
