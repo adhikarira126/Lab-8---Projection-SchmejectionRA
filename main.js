@@ -61,6 +61,7 @@ function initScene() {
     };
 
     document.getElementById('addPointBTN').addEventListener('click', () => addPoint(xINP.valueAsNumber, yINP.valueAsNumber, zINP.valueAsNumber));
+    document.getElementById('resetBTN').addEventListener('click', reset);
 
     gl.viewport(0, 0, canvas.clientWidth, canvas.clientHeight);
     recalculateProjMat(leftINP.valueAsNumber, rightINP.valueAsNumber, bottomINP.valueAsNumber, topINP.valueAsNumber, nearINP.valueAsNumber, farINP.valueAsNumber);
@@ -84,6 +85,24 @@ function recalculateProjMat(l, r, b, t, n, f) {
         0,                   0,                   -2 * f * n / (f - n),     0    // column 3
     );
 }
+
+/**
+ * Restores the original two points and the original viewing-volume values
+ * (the values in the HTML), then redraws the canvas and the table.
+ */
+function reset() {
+    points.points3D = [
+        2, 1, -3,
+        1, 2, -5
+    ];
+    for (let j = 0; j < bounds.length; j++) {
+        bounds[j].value = bounds[j].defaultValue; // defaultValue = the HTML value attribute
+    }
+    recalculateProjMat(leftINP.valueAsNumber, rightINP.valueAsNumber, bottomINP.valueAsNumber, topINP.valueAsNumber, nearINP.valueAsNumber, farINP.valueAsNumber);
+    points.render(projMat);
+    drawTable();
+}
+
 function addPoint(x, y, z) {
     points.points3D.push(x, y, z); // add points to the array
     points.render(projMat);  
