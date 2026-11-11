@@ -27,7 +27,7 @@ let points = new Points();
 let projMat;
 
 
-let bounds = [
+const bounds = [
     document.getElementById('leftINP'),
     document.getElementById('rightINP'),
     document.getElementById('bottomINP'),
@@ -36,9 +36,9 @@ let bounds = [
     document.getElementById('farINP')
 ];
 
-let pointsTable = document.getElementById('pointsTBL');
+const pointsTable = document.getElementById('pointsTBL');
 
-let newPointCoordinates = [
+const newPointCoordinates = [
     document.getElementById('xINP'),
     document.getElementById('yINP'),
     document.getElementById('zINP'),
@@ -52,19 +52,28 @@ function initScene() {
     program = createProgram(gl, vertexShaderSource, fragmentShaderSource);
 
     // each time a new value is entered, recalculate projMat and re-render points
-    for (let j = 0; j < bounds.length; j++) {
-        bounds[j].addEventListener('input', () => {
-            recalculateProjMat(leftINP.valueAsNumber, rightINP.valueAsNumber, bottomINP.valueAsNumber, topINP.valueAsNumber, nearINP.valueAsNumber, farINP.valueAsNumber);
-            points.render(projMat);
-            drawTable();
-        })
-    };
+    for (const input of bounds) {
+        input.addEventListener('input', updateScene);
+    }
 
-    document.getElementById('addPointBTN').addEventListener('click', () => addPoint(xINP.valueAsNumber, yINP.valueAsNumber, zINP.valueAsNumber));
+    document.getElementById('addPointBTN').addEventListener('click', () => {
+        const [x, y, z] = newPointCoordinates.map(input => input.valueAsNumber);
+        addPoint(x, y, z);
+    });
     document.getElementById('resetBTN').addEventListener('click', reset);
 
     gl.viewport(0, 0, canvas.clientWidth, canvas.clientHeight);
-    recalculateProjMat(leftINP.valueAsNumber, rightINP.valueAsNumber, bottomINP.valueAsNumber, topINP.valueAsNumber, nearINP.valueAsNumber, farINP.valueAsNumber);
+    updateScene();
+}
+
+/**
+ * Reads the six viewing-volume inputs, rebuilds the projection matrix,
+ * re-renders the points and redraws the table.
+ * Called whenever anything on the page changes.
+ */
+function updateScene() {
+    const [l, r, b, t, n, f] = bounds.map(input => input.valueAsNumber);
+    recalculateProjMat(l, r, b, t, n, f);
     points.render(projMat);
     drawTable();
 }
@@ -95,18 +104,15 @@ function reset() {
         2, 1, -3,
         1, 2, -5
     ];
-    for (let j = 0; j < bounds.length; j++) {
-        bounds[j].value = bounds[j].defaultValue; // defaultValue = the HTML value attribute
+    for (const input of bounds) {
+        input.value = input.defaultValue; // defaultValue = the HTML value attribute
     }
-    recalculateProjMat(leftINP.valueAsNumber, rightINP.valueAsNumber, bottomINP.valueAsNumber, topINP.valueAsNumber, nearINP.valueAsNumber, farINP.valueAsNumber);
-    points.render(projMat);
-    drawTable();
+    updateScene();
 }
 
 function addPoint(x, y, z) {
     points.points3D.push(x, y, z); // add points to the array
-    points.render(projMat);  
-    drawTable();
+    updateScene();
 }
 
 function drawTable() {
