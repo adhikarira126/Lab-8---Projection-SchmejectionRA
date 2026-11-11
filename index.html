@@ -4,42 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Lab 8: Projection, Schmejection</title>
     <link rel="stylesheet" href="styles.css">
-    <style>
-        table {
-            width: 100%;
-            margin: 1rem 0;
-            border-collapse: collapse;
-            text-align: left;
-        }
-
-        th,
-        td {
-            padding: 0.6rem 0.75rem;
-            border-bottom: 1px solid #d5dce5;
-        }
-
-        th {
-            background: #eef3f8;
-        }
-
-        tbody tr:nth-child(even) {
-            background: #f8fafc;
-        }
-
-        input,
-        button {
-            padding: 0.4rem 0.55rem;
-            border: 1px solid #b8c2ce;
-            border-radius: 4px;
-        }
-
-        button {
-            background: #eef3f8;
-            cursor: pointer;
-        }
-    </style>
     <script src="shaders.js"></script>
     <script src="gl-matrix.js"></script>
     <script src="utilities.js"></script>
@@ -49,7 +15,7 @@
 
 <body>
     <div id="main">
-        <h1>Lab 8: Projection, Schmojection</h1>
+        <h1>Lab 8: Projection, Schmejection</h1>
         <div>
             <canvas id="sandbox" width="500" height="500"></canvas>
             <fieldset>
@@ -84,13 +50,13 @@
                 <strong>Add a Point</strong><br>
                 <label for="xINP">x:</label>
                 <input id="xINP" type="number" value="3">
-                <label for="yINP">y:</label> 
+                <label for="yINP">y:</label>
                 <input id="yINP" type="number" value="-2">
-                <label for="zINP">z:</label> 
+                <label for="zINP">z:</label>
                 <input id="zINP" type="number" value="-8">
                 <button id="addPointBTN">+ Add</button>
             </div>
-            <div>
+            <div class="controls">
                 <button id="resetBTN">Reset</button>
             </div>
         </div>
