@@ -68,10 +68,22 @@ function initScene() {
     drawTable();
 }
 
+/**
+ * Builds the perspective projection matrix for the viewing volume (frustum).
+ *     | 2n/(r-l)     0      (r+l)/(r-l)       0       |
+ *     |    0      2n/(t-b)  (t+b)/(t-b)       0       |
+ *     |    0         0     -(f+n)/(f-n)  -2fn/(f-n)   |
+ *     |    0         0          -1            0       |
+ * gl-matrix is column-major, so the values are listed one column at a time.
+ */
 function recalculateProjMat(l, r, b, t, n, f) {
-    projMat = []; // fix this to build a projection matrix for perspective projection
+    projMat = mat4.fromValues(
+        2 * n / (r - l),     0,                   0,                        0,   // column 0
+        0,                   2 * n / (t - b),     0,                        0,   // column 1
+        (r + l) / (r - l),   (t + b) / (t - b),   -(f + n) / (f - n),      -1,   // column 2
+        0,                   0,                   -2 * f * n / (f - n),     0    // column 3
+    );
 }
-
 function addPoint(x, y, z) {
     points.points3D.push(x, y, z); // add points to the array
     points.render(projMat);  

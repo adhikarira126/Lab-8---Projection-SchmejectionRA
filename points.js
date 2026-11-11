@@ -42,14 +42,27 @@ class Points {
             let y = this.points3D[j + 1];
             let z = this.points3D[j + 2];
 
-            // TODO:
-            // 1. Represent this point in homogeneous coordinates.
-            // 2. Apply projMat to obtain clip coordinates.
-            // 3. Perform the perspective division to obtain NDC.
-            // 4. Append a Boolean to points3DInsideViewVolume indicating
-            //    whether all three NDC coordinates are within [-1, 1].
-            // 5. Append the NDC x, y, and z coordinates to pointsNDC,
-            //    regardless of whether the point is visible.
+            // 1. homogeneous coordinates
+            const point = vec4.fromValues(x, y, z, 1);
+
+            // 2. clip coordinates = projMat * point
+            const clip = vec4.transformMat4(vec4.create(), point, projMat);
+
+            // 3. perspective division
+            const w = clip[3];
+            const xNDC = clip[0] / w;
+            const yNDC = clip[1] / w;
+            const zNDC = clip[2] / w;
+
+            // 4. visible only if all three NDC coordinates are in [-1, 1]
+            const inside =
+                Math.abs(xNDC) <= 1 &&
+                Math.abs(yNDC) <= 1 &&
+                Math.abs(zNDC) <= 1;
+            this.points3DInsideViewVolume.push(inside);
+
+            // 5. always record the NDC coordinates
+            this.pointsNDC.push(xNDC, yNDC, zNDC);
         }
     }
 
