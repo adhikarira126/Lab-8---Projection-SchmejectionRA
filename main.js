@@ -1,4 +1,3 @@
-"use strict";
 /*
  * Name:        Rachin Adhikari
  * Date:        11/10/2026
@@ -13,19 +12,19 @@
  */
 
 // @ts-check
+"use strict";
+
 // handy-dandy shortcut
-const { mat4, mat3, vec4, vec3, vec2 } = glMatrix;
+const { mat4, vec4 } = glMatrix;
 
-
-// @ts-check
 /** @type {WebGL2RenderingContext} */
 let gl;
 /** @type {WebGLProgram} */
 let program;
 
-let points ;
+/** @type {Points} */
+let points;
 let projMat;
-
 
 const bounds = [
     document.getElementById('leftINP'),
@@ -140,7 +139,5 @@ function drawTable() {
         resultCell.textContent = visibility ? 'Visible' : 'Not visible';
     }
 }
-
-
 
 initScene();

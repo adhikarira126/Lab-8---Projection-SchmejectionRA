@@ -1,8 +1,4 @@
-// /** @type {typeof import("gl-matrix")} */
 
-// const glm = glMatrix;
-
-// const { mat4, mat3, vec4, vec3, vec2 } = glm;
 
 class Points {
 
